@@ -1,14 +1,40 @@
-<form class="max-w-xl mx-auto mt-3">
-    <h1 class="text-2xl font-bold mb-4">New Organization</h1>
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="max-w-xl mx-auto mt-3">
+    <h1 class="text-2xl font-bold mb-4">
+        @if(isEditMode()){
+            Edit organization
+        }@else{
+            New Organization
+        }
+    </h1>
     <div class="grid md:grid-cols-2 md:gap-6">
         <div class="relative z-0 w-full mb-5 group">
-            <input type="text" name="name" id="name" class="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer" placeholder=" " required />
+            <input 
+                type="text" 
+                formControlName="name"
+                name="name" 
+                id="name" 
+                class="input block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer" 
+                [class.input-error]="form.get('name')?.touched && form.get('name')?.invalid"
+                placeholder=" " />
+            @if (form.get('name')?.touched && form.get('name')?.hasError('required')) {
+                <p class="text-red-500 text-sm mt-1">Organization name is required.</p>
+            }
             <label for="name" class="absolute text-sm text-body duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
                 Name
             </label>
         </div>
         <div class="relative z-0 w-full mb-5 group">
-            <input type="text" name="email" id="email" class="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer" placeholder=" " required />
+            <input 
+                type="email" 
+                formControlName="email"
+                name="email" 
+                id="email" 
+                class="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer" 
+                [class.input-error]="form.get('email')?.touched && form.get('email')?.invalid"
+                placeholder=" " />
+            @if (form.get('email')?.touched && form.get('email')?.hasError('email')) {
+                <p class="text-red-500 text-sm mt-1">Please enter a valid email.</p>
+            }
             <label for="email" class="absolute text-sm text-body duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
                 Email
             </label>
@@ -16,23 +42,84 @@
     </div>
     <div class="grid md:grid-cols-2 md:gap-6">
         <div class="relative z-0 w-full mb-5 group">
-            <input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" name="phone" id="phone" class="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer" placeholder=" " required />
+            <input 
+            type="text" 
+            formControlName="phone"
+            name="phone" 
+            id="phone" 
+            class="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer" 
+            />
             <label for="phone" class="absolute text-sm text-body duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
                 Phone
             </label>
         </div>
         <div class="relative z-0 w-full mb-5 group">
-            <input type="text" name="website" id="website" class="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer" placeholder=" " required />
+            <input 
+                type="text" 
+                formControlName="website"
+                name="website" 
+                id="website" 
+                class="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer" placeholder=" " />
             <label for="website" class="absolute text-sm text-body duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
                 Website
             </label>
         </div>
     </div>
+    <div class="grid md:grid-cols-2 md:gap-6">
+        <div class="relative z-0 w-full mb-5 group">
+            <select
+                formControlName="type"
+                class="block py-2.5 px-0 w-full text-sm text-heading bg-transparent
+                    border-0 border-b-2 border-default-medium appearance-none
+                    focus:outline-none focus:ring-0 focus:border-brand peer"
+            >
+                <option value="" disabled selected>Select organization type</option>
+                <option value="parent">Parent</option>
+                <option value="subsidiary">Subsidiary</option>
+                <option value="branch">Branch</option>
+            </select>
+        </div>
+        @if (isEditMode()){
+            <div class="relative z-0 w-full mb-5 group">
+                <select
+                    formControlName="status"
+                    class="block py-2.5 px-0 w-full text-sm text-heading bg-transparent
+                        border-0 border-b-2 border-default-medium appearance-none
+                        focus:outline-none focus:ring-0 focus:border-brand peer"
+                >
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                </select>
+            </div>
+        }
+    </div>
     <div class="relative z-0 w-full mb-5 group">
-        <input type="text" name="address" id="address" class="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer" placeholder=" " required />
+        <input 
+            type="text" 
+            formControlName="address"
+            name="address" 
+            id="address" 
+            class="block py-2.5 px-0 w-full text-sm text-heading bg-transparent border-0 border-b-2 border-default-medium appearance-none focus:outline-none focus:ring-0 focus:border-brand peer" 
+            placeholder=" " />
         <label for="address" class="absolute text-sm text-body duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 peer-focus:text-fg-brand peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
             Address
         </label>
     </div>
-    <button type="submit" class="text-white bg-black rounded-full pointer box-border border hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none">Submit</button>
+    <button 
+        style="cursor: pointer;"
+        type="submit" 
+        class="text-white bg-black rounded-full pointer box-border border hover:bg-brand-strong focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none"
+        [disabled]="form.invalid || isSubmitting()">
+        @if (isSubmitting()){
+            <svg class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            Saving...
+        } @else {
+            {{ isEditMode() ? 'Update organization info' : 'Create organization'}}
+        }
+    </button>
 </form>
+
+<!-- <pre>{{ form.status }}</pre> -->

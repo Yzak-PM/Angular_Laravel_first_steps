@@ -29,7 +29,6 @@ export interface CreateContactDto {
     phone: string | null;
     title: string;
     department: string | null;
-    is_primary: string;
     status: 'active' | 'inactive';
     notes: string | null;
 }

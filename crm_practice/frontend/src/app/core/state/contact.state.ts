@@ -1,6 +1,6 @@
 import { Injectable, inject, signal, computed } from '@angular/core';
 import { ApiService, PaginatedResponse, ApiResponse } from '../services/api.service';
-import { Contact, ContactFilters } from '../models/contact.model';
+import { Contact, ContactFilters, CreateContactDto } from '../models/contact.model';
 
 @Injectable({ providedIn: 'root' })
 export class ContactState {
@@ -52,4 +52,88 @@ export class ContactState {
             }
         });
     }
+
+    loadContact(id: string): void {
+    this._isLoading.set(true);
+    this._error.set(null);
+    
+    this.api.get<ApiResponse<Contact>>(`contacts/${id}`).subscribe({
+        next: (response) => {
+            this._selectedContact.set(response.data);
+            this._isLoading.set(false);
+        },
+        error: (err) => {
+            this._error.set(err.message || 'Failed to load contact');
+            this._isLoading.set(false);
+        }
+        });
+    }
+
+    createContact(data: CreateContactDto): Promise<Contact> {
+    this._isLoading.set(true);
+    this._error.set(null);
+    
+    return new Promise((resolve, reject) => {
+        this.api.post<ApiResponse<Contact>>('contacts', data).subscribe({
+            next: (response) => {
+            this._contacts.update(contacts => [response.data, ...contacts]);
+            this._isLoading.set(false);
+            resolve(response.data);
+            },
+            error: (err) => {
+            this._error.set(err.error?.message || 'Failed to create contact');
+            this._isLoading.set(false);
+            reject(err);
+            }
+        });
+        });
+    }
+
+    updateContact(id: string, data: Partial<CreateContactDto>): Promise<Contact> {
+        this._isLoading.set(true);
+        this._error.set(null);
+        
+        return new Promise((resolve, reject) => {
+        this.api.put<ApiResponse<Contact>>(`contacts/${id}`, data).subscribe({
+            next: (response) => {
+            this._contacts.update(contacts => 
+                contacts.map(c => c.id === id ? response.data : c)
+            );
+            if (this._selectedContact()?.id === id) {
+                this._selectedContact.set(response.data);
+            }
+            this._isLoading.set(false);
+            resolve(response.data);
+            },
+            error: (err) => {
+            this._error.set(err.error?.message || 'Failed to update contact');
+            this._isLoading.set(false);
+            reject(err);
+            }
+        });
+        });
+    }
+    
+    deleteContact(id: string): Promise<void> {
+        this._isLoading.set(true);
+        this._error.set(null);
+        
+        return new Promise((resolve, reject) => {
+        this.api.delete(`contacts/${id}`).subscribe({
+            next: () => {
+            this._contacts.update(contacts => contacts.filter(c => c.id !== id));
+            if (this._selectedContact()?.id === id) {
+                this._selectedContact.set(null);
+            }
+            this._isLoading.set(false);
+            resolve();
+            },
+            error: (err) => {
+            this._error.set(err.error?.message || 'Failed to delete contact');
+            this._isLoading.set(false);
+            reject(err);
+            }
+        });
+        });
+    } 
 }

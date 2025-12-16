@@ -33,4 +33,5 @@ export interface CreateOrganizationDto {
     phone?: string;
     website?: string;
     address?: string;
+    status?: 'active' | 'inactive';
 }

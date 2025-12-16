@@ -1,0 +1,187 @@
+<form class="mx-auto mt-10 max-w-3xl rounded-2xl border border-slate-200 bg-white shadow-sm"
+    (ngSubmit)="onSubmit()" #form="ngForm">
+    <!-- Header -->
+    <div class="border-b border-slate-200 p-6">
+        <h2 class="text-2xl font-bold text-slate-800">
+        {{ isEditMode ? "Edit Contact" : "Create new contact" }}
+        </h2>
+    </div>
+
+    <div class="grid grid-cols-1 gap-6 p-6 sm:grid-cols-2">
+        <div class="sm:col-span-2">
+            <label class="block text-sm font-medium text-slate-700">
+                Organization
+            </label>
+            <select
+                id="organization_id"
+                name="organization_id"
+                [(ngModel)]="formData.organization_id"
+                class="mt-1 block w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm
+                    focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+            >
+                <option value="">Select an organization...</option>
+                @for (org of organizationState.organizations(); track org.id) {
+                    <option [value]="org.id">{{ org.name }}</option>
+                }
+            </select>
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium text-slate-700">
+                First Name
+            </label>
+            <input
+                type="text"
+                id="first_name"
+                name="first_name"
+                [(ngModel)]="formData.first_name"
+                required
+                placeholder="John"
+                class="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2 text-sm
+                    focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+            />
+        </div>
+
+        <!-- Last Name -->
+        <div>
+        <label class="block text-sm font-medium text-slate-700">
+            Last Name
+        </label>
+        <input
+            type="text"
+            id="last_name"
+            name="last_name"
+            [(ngModel)]="formData.last_name"
+            placeholder="Doe"
+            class="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2 text-sm
+                focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+        />
+        </div>
+
+        <!-- Email -->
+        <div>
+        <label class="block text-sm font-medium text-slate-700">
+            Email
+        </label>
+        <input
+            type="email"
+            id="email"
+            name="email"
+            [(ngModel)]="formData.email"
+            placeholder="john.doe@email.com"
+            class="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2 text-sm
+                focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+        />
+        </div>
+
+        <!-- Title -->
+        <div>
+        <label class="block text-sm font-medium text-slate-700">
+            Title
+        </label>
+        <input
+            type="text"
+            id="title"
+            name="title"
+            [(ngModel)]="formData.title"
+            placeholder="Sales Manager"
+            class="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2 text-sm
+                focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+        />
+        </div>
+
+        <!-- Department -->
+        <div>
+        <label class="block text-sm font-medium text-slate-700">
+            Department
+        </label>
+        <input
+            type="text"
+            id="department"
+            name="department"
+            [(ngModel)]="formData.department"
+            placeholder="Sales"
+            class="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2 text-sm
+                focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+        />
+        </div>
+
+        <!-- Phone -->
+        <div>
+        <label class="block text-sm font-medium text-slate-700">
+            Phone
+        </label>
+        <input
+            type="text"
+            id="phone"
+            name="phone"
+            [(ngModel)]="formData.phone"
+            placeholder="+52 555 123 4567"
+            class="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2 text-sm
+                focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+        />
+        </div>
+
+        <!-- Status -->
+        <div>
+        <label class="block text-sm font-medium text-slate-700">
+            Status
+        </label>
+        <select
+            id="status"
+            name="status"
+            [(ngModel)]="formData.status"
+            class="mt-1 block w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm
+                focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+        >
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+        </select>
+        </div>
+
+        <!-- Notes -->
+        <div class="sm:col-span-2">
+        <label class="block text-sm font-medium text-slate-700">
+            Notes
+        </label>
+        <textarea
+            id="notes"
+            name="notes"
+            [(ngModel)]="formData.notes"
+            rows="3"
+            placeholder="Additional notes..."
+            class="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2 text-sm
+                focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+        ></textarea>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="flex justify-end gap-3 border-t border-slate-200 p-6">
+        <button
+        type="button"
+        class="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+        >
+        Cancel
+        </button>
+
+        <button
+            type="submit"
+            class="rounded-lg bg-indigo-600 px-6 py-2 text-sm font-medium text-white hover:bg-indigo-700"
+            [disabled]="contactState.isLoading() || !form.valid"
+        >
+        @if (contactState.isLoading()) {
+            <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            Saving...
+        } @else {
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+            {{ isEditMode ? 'Update Contact' : 'Create Contact' }}
+        }
+        </button>
+    </div>
+</form>
