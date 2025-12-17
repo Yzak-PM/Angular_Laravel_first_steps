@@ -2,11 +2,10 @@
 namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Contact\UpdateContactRequest;
+use App\Http\Requests\Contact\StoreContactRequest;
 use App\Services\ContactService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use StoreContactRequest;
-
 class ContactController extends Controller{
     public function __construct(private ContactService $service){}
 

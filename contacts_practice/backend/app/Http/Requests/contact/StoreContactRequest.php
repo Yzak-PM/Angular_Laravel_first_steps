@@ -1,5 +1,5 @@
 <?php
-
+namespace App\Http\Requests\Contact;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreContactRequest extends FormRequest{

@@ -19,5 +19,4 @@ export interface CreateContactDto {
     mobile: string;
     email: string;
     company: string;
-    created_at: string;
 }

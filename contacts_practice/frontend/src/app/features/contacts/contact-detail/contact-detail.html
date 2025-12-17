@@ -1,0 +1,39 @@
+<div class="flex flex-row justify-between p-2">
+    <h1 class="pointer" routerLink="/"><</h1>
+    <button type="submit" 
+        [routerLink]="['/contacts', contact()!.id, 'edit']"
+        class=" rounded-xl text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-base px-4 py-2.5 text-center leading-5"
+        >
+        Edit
+    </button>
+</div>
+
+@if (contactState.isLoading()){
+    <div class="px-4">
+        <div class="d-flex flex-row justify-center text-center align-items-center">
+            <div class="h-6 rounded bg-slate-200 w-90 mb-2"></div>
+        </div>
+    
+        <div class="d-flex flex-col">
+            <div class="h-6 rounded bg-slate-200 w-90 mb-2"></div>
+            <div class="h-6 rounded bg-slate-200 w-90 mb-2"></div>
+            <div class="h-6 rounded bg-slate-200 w-90 mb-2"></div>
+            <div class="h-6 rounded bg-slate-200 w-90 mb-2"></div>
+        </div>
+    </div> 
+} @else {
+    <div class="px-4">
+        <div class="d-flex flex-row justify-center text-center">
+            <h2>{{ contact()!.name }}</h2>
+        </div>
+    
+        <div class="d-flex flex-col">
+            <p class="font-bold">Mobile</p>
+            <p class="mb-3">{{ contact()!.mobile }}</p>
+            <p class="font-bold">Email</p>
+            <p class="mb-3">{{ contact()!.email }}</p>
+            <p class="font-bold">Company</p>
+            <p class="mb-3">{{ contact()!.company }}</p>
+        </div>
+    </div>
+}

@@ -6,3 +6,12 @@ h1{
     font-size: 2rem;
     font-weight: bold;
 }
+
+h2{
+    font-size: 26px;
+    font-weight: bold;
+}
+
+.pointer {
+    cursor: pointer;
+}
