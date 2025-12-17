@@ -16,11 +16,11 @@ class ContactRepository{
             $query->where('name', 'like', '%'.$filters['search'].'%');
         }
 
-        $sortBy = $filters['sort_by'] ?? 'created_at';
-        $sortDir = $filters['sort_dir'] ?? 'desc';
+        $sortBy = $filters['sort_by'] ?? 'name';
+        $sortDir = $filters['sort_dir'] ?? 'asc';
         $query->orderBy($sortBy, $sortDir);
         //& Paginacion
-        $perPage = $filters['per_page'] ?? 5;
+        $perPage = $filters['per_page'] ?? 10;
         return $query->paginate($perPage);
     }
 
