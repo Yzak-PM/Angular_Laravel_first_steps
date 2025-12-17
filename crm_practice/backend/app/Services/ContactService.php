@@ -46,7 +46,7 @@ class ContactService
     private function generatePath(array $data): string
     {
         // Crear slug para el path
-        $slug = Str::slug($data['name'], '_');
+        $slug = Str::slug($data['first_name'], '_');
         if (!empty($data['parent_id'])) {
             $parent = $this->repository->find($data['parent_id']);
             if ($parent && $parent->path) {

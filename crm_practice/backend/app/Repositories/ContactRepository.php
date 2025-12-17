@@ -30,7 +30,7 @@ class ContactRepository
 
     public function find(string $id): ?Contact
     {
-        return $this->model->with(['parent', 'children'])->find($id);
+        return $this->model->find($id);
     }
 
     public function create(array $data): Contact
@@ -51,6 +51,6 @@ class ContactRepository
 
     public function getRoots(): Collection
     {
-        return $this->model->roots()->active()->orderBy('name')->get();
+        return $this->model->roots()->active()->orderBy('first_name')->get();
     }
 }

@@ -22,7 +22,6 @@ class Organization extends Model
         'website',
         'address',
         'status',
-        'path',
     ];
     
     protected $casts = [
