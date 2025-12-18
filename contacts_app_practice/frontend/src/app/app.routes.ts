@@ -45,6 +45,12 @@ export const routes: Routes = [
           import('./features/contacts/contacts.routes').then(m => m.CONTACT_ROUTES),
         title: 'Contacts',
       },
+      {
+        path: 'admin',
+        loadChildren: () =>
+          import('./features/admin/admin.routes').then(m => m.ADMIN_ROUTES),
+        title: 'Admin',
+      },
 
       // Admin only route
       // {

@@ -1,0 +1,92 @@
+<div class="page-enter space-y-6">
+      <div class="flex items-center justify-between gap-4">
+        <div>
+          <h1 class="text-2xl font-display font-bold text-midnight-900">Permission Settings</h1>
+          <p class="text-midnight-500 mt-1">Configure what each role can do in Contacts.</p>
+        </div>
+        <button
+          (click)="confirmReset()"
+          class="btn-ghost text-amber-600 hover:bg-amber-50"
+          [disabled]="permState.isSaving()"
+        >
+          Reset to Defaults
+        </button>
+      </div>
+
+      @if (permState.error()) {
+        <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl">
+          {{ permState.error() }}
+        </div>
+      }
+
+      <div class="card">
+        <!-- Role Tabs -->
+        <div class="border-b border-midnight-100">
+          <nav class="flex gap-1 p-2">
+            @for (role of permState.roleList(); track role.key) {
+              <button
+                (click)="selectedRole.set(role.key)"
+                class="pointer px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                [class.bg-blue-100]="selectedRole() === role.key"
+                [class.text-blue-700]="selectedRole() === role.key"
+                [class.text-midnight-600]="selectedRole() !== role.key"
+                [class.hover:bg-midnight-50]="selectedRole() !== role.key"
+              >
+                {{ role.label }}
+              </button>
+            }
+          </nav>
+        </div>
+
+        @if (permState.isLoading()) {
+          <div class="p-6 space-y-4">
+            <div class="skeleton h-24 rounded-xl"></div>
+          </div>
+        } @else {
+          <div class="p-6 space-y-6">
+            <!-- Contacts Module Only -->
+            <div class="border border-midnight-100 rounded-xl overflow-hidden">
+              <div class="bg-midnight-50 px-4 py-3 flex items-center gap-3">
+                <div>
+                  <h3 class="font-semibold text-midnight-900">Contacts</h3>
+                  <p class="text-xs text-midnight-500">Configure access for contacts module</p>
+                </div>
+                <div class="ml-auto flex items-center gap-2">
+                  <button
+                    (click)="toggleAll(true)"
+                    class="text-xs px-2 py-1 rounded bg-green-50 text-green-600 hover:bg-green-100"
+                    [disabled]="permState.isSaving()"
+                  >
+                    Allow All
+                  </button>
+                  <button
+                    (click)="toggleAll(false)"
+                    class="text-xs px-2 py-1 rounded bg-red-50 text-red-600 hover:bg-red-100"
+                    [disabled]="permState.isSaving()"
+                  >
+                    Deny All
+                  </button>
+                </div>
+              </div>
+
+              <div class="p-4">
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                  @for (action of permState.getActionsForModule('contacts'); track action.key) {
+                    <label class="flex items-center gap-2 p-3 rounded-lg border border-midnight-100 hover:border-nexus-200 transition-colors cursor-pointer">
+                      <input
+                        type="checkbox"
+                        [checked]="hasPermission(action.key)"
+                        (change)="togglePermission(action.key, $event)"
+                        [disabled]="permState.isSaving()"
+                        class="w-4 h-4 rounded border-midnight-300 text-nexus-600 focus:ring-nexus-500"
+                      />
+                      <span class="text-sm text-midnight-900">{{ action.label }}</span>
+                    </label>
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>

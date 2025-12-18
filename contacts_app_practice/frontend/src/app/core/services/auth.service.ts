@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { Observable, tap, catchError, throwError } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
+import { PermissionState } from '../state/permission.state';
 
 export interface User {
   id: string;
@@ -43,8 +44,11 @@ export class AuthService {
 
   private readonly TOKEN_KEY = 'app_auth_token';
   private readonly USER_KEY = 'app_user';
+
   private http = inject(HttpClient);
   private router = inject(Router);
+  private permissionState = inject(PermissionState)
+
 
   // State signals
   private _user = signal<User | null>(null);
@@ -119,6 +123,10 @@ export class AuthService {
         this._user.set(user);
         localStorage.setItem(this.USER_KEY, JSON.stringify(user));
         this._isLoading.set(false);
+        this._error.set(null);
+
+        //Load permissions after user is authenticated
+        this.permissionState.loadPermissions();
       },
       error: (err) => {
         this._isLoading.set(false);
@@ -139,6 +147,8 @@ export class AuthService {
         this._user.set(response.user);
         localStorage.setItem(this.USER_KEY, JSON.stringify(response.user));
         this._isLoading.set(false);
+          //Load permissions after user is authenticated
+        this.permissionState.loadPermissions();
       }),
       catchError((error) => {
         this._isLoading.set(false);
