@@ -1,0 +1,284 @@
+<div class="min-h-screen relative overflow-hidden bg-white text-slate-900 px-4 py-12 flex items-center justify-center">
+  <!-- Decorative background elements (sky glow, light) -->
+  <div class="pointer-events-none absolute inset-0 overflow-hidden">
+    <div class="absolute -top-28 -left-28 w-96 h-96 bg-sky-400/25 rounded-full blur-3xl"></div>
+    <div class="absolute top-1/3 -right-28 w-[28rem] h-[28rem] bg-cyan-400/20 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-0 left-1/3 w-[26rem] h-[26rem] bg-sky-500/10 rounded-full blur-3xl"></div>
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(56,189,248,0.10),transparent_55%)]"></div>
+  </div>
+
+  <div class="relative w-full max-w-md">
+    <!-- Logo/Brand -->
+    <div class="text-center mb-8">
+      <div
+        class="inline-flex items-center justify-center w-14 h-14 rounded-2xl mb-4
+               bg-white/70 ring-1 ring-slate-200 backdrop-blur
+               shadow-[0_12px_30px_-18px_rgba(15,23,42,0.35)]"
+      >
+        <svg class="w-7 h-7 text-sky-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
+          />
+        </svg>
+      </div>
+
+      <h1 class="text-3xl font-semibold tracking-tight text-slate-900">Create account</h1>
+      <p class="text-slate-600 mt-2">Join today. Future-you will approve.</p>
+    </div>
+
+    <!-- Register Card -->
+    <div
+      class="bg-white/70 backdrop-blur-xl rounded-2xl border border-slate-200/70 p-8
+             shadow-[0_20px_60px_-25px_rgba(15,23,42,0.25)]"
+    >
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-5">
+        <!-- Name Field -->
+        <div>
+          <label for="name" class="block text-sm font-medium text-slate-700 mb-2">
+            Full name
+          </label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                />
+              </svg>
+            </div>
+
+            <input
+              id="name"
+              type="text"
+              formControlName="name"
+              class="w-full pl-12 pr-4 py-3 bg-white border rounded-xl text-slate-900 placeholder-slate-400
+                     outline-none transition
+                     focus:border-sky-400 focus:shadow-[0_0_0_4px_rgba(56,189,248,0.22)]"
+              placeholder="John Doe"
+              [class.border-red-300]="registerForm.get('name')?.touched && registerForm.get('name')?.invalid"
+              [class.border-slate-200]="!(registerForm.get('name')?.touched && registerForm.get('name')?.invalid)"
+            />
+          </div>
+
+          @if (registerForm.get('name')?.touched && registerForm.get('name')?.errors) {
+            <p class="mt-2 text-sm text-red-600">
+              @if (registerForm.get('name')?.errors?.['required']) { Name is required }
+              @else if (registerForm.get('name')?.errors?.['maxlength']) { Name cannot exceed 255 characters }
+            </p>
+          }
+        </div>
+
+        <!-- Email Field -->
+        <div>
+          <label for="email" class="block text-sm font-medium text-slate-700 mb-2">
+            Email address
+          </label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"
+                />
+              </svg>
+            </div>
+
+            <input
+              id="email"
+              type="email"
+              formControlName="email"
+              class="w-full pl-12 pr-4 py-3 bg-white border rounded-xl text-slate-900 placeholder-slate-400
+                     outline-none transition
+                     focus:border-sky-400 focus:shadow-[0_0_0_4px_rgba(56,189,248,0.22)]"
+              placeholder="you@example.com"
+              [class.border-red-300]="registerForm.get('email')?.touched && registerForm.get('email')?.invalid"
+              [class.border-slate-200]="!(registerForm.get('email')?.touched && registerForm.get('email')?.invalid)"
+            />
+          </div>
+
+          @if (registerForm.get('email')?.touched && registerForm.get('email')?.errors) {
+            <p class="mt-2 text-sm text-red-600">
+              @if (registerForm.get('email')?.errors?.['required']) { Email is required }
+              @else if (registerForm.get('email')?.errors?.['email']) { Please enter a valid email }
+            </p>
+          }
+        </div>
+
+        <!-- Password Field -->
+        <div>
+          <label for="password" class="block text-sm font-medium text-slate-700 mb-2">
+            Password
+          </label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                />
+              </svg>
+            </div>
+
+            <input
+              id="password"
+              [type]="showPassword() ? 'text' : 'password'"
+              formControlName="password"
+              class="w-full pl-12 pr-16 py-3 bg-white border rounded-xl text-slate-900 placeholder-slate-400
+                     outline-none transition
+                     focus:border-sky-400 focus:shadow-[0_0_0_4px_rgba(56,189,248,0.22)]"
+              placeholder="••••••••"
+              [class.border-red-300]="registerForm.get('password')?.touched && registerForm.get('password')?.invalid"
+              [class.border-slate-200]="!(registerForm.get('password')?.touched && registerForm.get('password')?.invalid)"
+            />
+
+            <button
+              type="button"
+              (click)="togglePassword()"
+              class="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-500 hover:text-slate-900 transition"
+            >
+              <span class="text-xs font-semibold">
+                @if (showPassword()) { HIDE } @else { SHOW }
+              </span>
+            </button>
+          </div>
+
+          @if (registerForm.get('password')?.touched && registerForm.get('password')?.errors) {
+            <p class="mt-2 text-sm text-red-600">
+              @if (registerForm.get('password')?.errors?.['required']) { Password is required }
+              @else if (registerForm.get('password')?.errors?.['minlength']) { Password must be at least 8 characters }
+              @else if (registerForm.get('password')?.errors?.['pattern']) { Must contain uppercase, lowercase, and numbers }
+            </p>
+          }
+
+          <!-- Password strength indicator -->
+          <div class="mt-2 space-y-1">
+            <div class="flex gap-1">
+              @for (i of [1,2,3,4]; track i) {
+                <div
+                  class="h-1 flex-1 rounded-full transition-colors"
+                  [class]="getPasswordStrength() >= i ? getStrengthColor() : 'bg-slate-200'"
+                ></div>
+              }
+            </div>
+            <p class="text-xs text-slate-500">Use 8+ characters with mixed case and numbers</p>
+          </div>
+        </div>
+
+        <!-- Confirm Password Field -->
+        <div>
+          <label for="password_confirmation" class="block text-sm font-medium text-slate-700 mb-2">
+            Confirm password
+          </label>
+
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                />
+              </svg>
+            </div>
+
+            <input
+              id="password_confirmation"
+              [type]="showConfirmPassword() ? 'text' : 'password'"
+              formControlName="password_confirmation"
+              class="w-full pl-12 pr-16 py-3 bg-white border rounded-xl text-slate-900 placeholder-slate-400
+                     outline-none transition
+                     focus:border-sky-400 focus:shadow-[0_0_0_4px_rgba(56,189,248,0.22)]"
+              placeholder="••••••••"
+              [class.border-red-300]="registerForm.get('password_confirmation')?.touched && registerForm.get('password_confirmation')?.invalid"
+              [class.border-slate-200]="!(registerForm.get('password_confirmation')?.touched && registerForm.get('password_confirmation')?.invalid)"
+            />
+
+            <button
+              type="button"
+              (click)="toggleConfirmPassword()"
+              class="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-500 hover:text-slate-900 transition"
+            >
+              <span class="text-xs font-semibold">
+                @if (showConfirmPassword()) { HIDE } @else { SHOW }
+              </span>
+            </button>
+          </div>
+
+          @if (registerForm.get('password_confirmation')?.touched && registerForm.errors?.['passwordMismatch']) {
+            <p class="mt-2 text-sm text-red-600">Passwords do not match</p>
+          }
+        </div>
+
+        <!-- Error Message (API) -->
+        @if (authService.error()) {
+          <div class="p-4 bg-red-50 border border-red-200 rounded-xl">
+            <div class="flex items-center gap-3">
+              <svg class="w-5 h-5 text-red-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <p class="text-sm text-red-700">{{ authService.error() }}</p>
+            </div>
+          </div>
+        }
+
+        <!-- Submit Button -->
+        <button
+          type="submit"
+          [disabled]="registerForm.invalid || authService.isLoading()"
+          class="group relative w-full overflow-hidden rounded-xl
+                 bg-gradient-to-r from-sky-500 to-cyan-400
+                 py-3 px-4 text-white font-semibold
+                 shadow-lg shadow-sky-500/20 transition
+                 hover:shadow-xl hover:shadow-sky-500/25
+                 disabled:opacity-60 disabled:cursor-not-allowed
+                 flex items-center justify-center gap-2"
+        >
+          <!-- shine -->
+          <span class="absolute inset-0 -translate-x-full bg-gradient-to-r from-white/0 via-white/35 to-white/0 transition duration-700 group-hover:translate-x-full"></span>
+
+          <span class="relative">
+            @if (authService.isLoading()) {
+              <span class="inline-flex items-center gap-2">
+                <svg class="animate-spin w-5 h-5" fill="none" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Creating account...
+              </span>
+            } @else {
+              Create account <span class="opacity-90 transition group-hover:translate-x-0.5 inline-block">→</span>
+            }
+          </span>
+        </button>
+      </form>
+
+      <!-- Login Link -->
+      <div class="mt-6 text-center">
+        <p class="text-slate-600">
+          Already have an account?
+          <a
+            routerLink="/auth/login"
+            class="text-sky-700 hover:underline decoration-sky-300 font-medium transition"
+          >
+            Sign in
+          </a>
+        </p>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <p class="text-center text-slate-500 text-sm mt-8">
+      &copy; {{ currentYear }} Entheospace. All rights reserved.
+    </p>
+  </div>
+</div>
