@@ -120,10 +120,13 @@ export class AuthService {
         localStorage.setItem(this.USER_KEY, JSON.stringify(user));
         this._isLoading.set(false);
       },
-      error: () => {
-        this.clearAuth();
+      error: (err) => {
         this._isLoading.set(false);
+        if (err.status === 401 || err.status === 403) {
+          this.forceLogoutLocalOnly();
+        }
       }
+
     });
   }
 
@@ -184,6 +187,13 @@ export class AuthService {
     this._user.set(null);
     this.router.navigate(['/auth/login']);
   }
+
+  forceLogoutLocalOnly(): void {
+    localStorage.removeItem(this.TOKEN_KEY);
+    localStorage.removeItem(this.USER_KEY);
+    this._user.set(null);
+  }
+
 
   hasRole(role: string): boolean {
     return this._user()?.role === role;
