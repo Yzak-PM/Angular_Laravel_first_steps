@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import { ContactState } from '../../../core/state/contact.state';
 import { CreateContactDto } from '../../../core/models/contact.model';
+import { PermissionState } from '../../../core/state/permission.state';
 
 @Component({
   selector: 'app-contact-form',
@@ -15,6 +16,7 @@ export class ContactForm implements OnInit{
   private router = inject(Router);
   
   contactState = inject(ContactState);
+  permissionState = inject(PermissionState);
 
   contact = computed(() => this.contactState.selectedContact());
   isDeleting = signal(false);

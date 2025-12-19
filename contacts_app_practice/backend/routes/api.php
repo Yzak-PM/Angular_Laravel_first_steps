@@ -23,18 +23,17 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/permissions', [PermissionController::class, 'index'])->name('permissions');
 
     // Contacts (single source of truth)
-    Route::prefix('contacts')->group(function () {
-        // Read - all authenticated
-        Route::get('/', [ContactController::class, 'index']);
-        Route::get('/{contact}', [ContactController::class, 'show']);
-
-        // Create/Update - allow sales_rep too (as you want)
-        Route::post('/', [ContactController::class, 'store'])->middleware('role:admin,manager,sales_rep');
-        Route::put('/{contact}', [ContactController::class, 'update'])->middleware('role:admin,manager,sales_rep');
-        Route::patch('/{contact}', [ContactController::class, 'update'])->middleware('role:admin,manager,sales_rep');
-
-        // Delete - admin only (ajusta si manager también debe borrar)
-        Route::delete('/{contact}', [ContactController::class, 'destroy'])->middleware('role:admin');
+    Route::prefix('contacts')->name('contacts.')->group(function () {
+        // Read operations
+        Route::get('/search', [ContactController::class, 'search'])->middleware('permission:contacts,view');
+        Route::get('/for-select', [ContactController::class, 'forSelect'])->middleware('permission:contacts,view');
+        Route::get('/statistics', [ContactController::class, 'statistics'])->middleware('permission:contacts,view');
+        Route::get('/', [ContactController::class, 'index'])->middleware('permission:contacts,view');
+        Route::get('/{contact}', [ContactController::class, 'show'])->middleware('permission:contacts,view');
+        Route::post('/', [ContactController::class, 'store'])->middleware('permission:contacts,create');
+        Route::put('/{contact}', [ContactController::class, 'update'])->middleware('permission:contacts,update');
+        Route::patch('/{contact}', [ContactController::class, 'update'])->middleware('permission:contacts,update');
+        Route::delete('/{contact}', [ContactController::class, 'destroy'])->middleware('permission:contacts,delete');
     });
 
     // Role-permissions admin only

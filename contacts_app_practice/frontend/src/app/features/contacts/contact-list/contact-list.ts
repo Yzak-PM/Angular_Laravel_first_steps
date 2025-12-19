@@ -3,6 +3,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { ContactState } from '../../../core/state/contact.state';
+import { PermissionState } from '../../../core/state/permission.state';
 
 @Component({
   selector: 'app-contact-list',
@@ -12,6 +13,7 @@ import { ContactState } from '../../../core/state/contact.state';
 })
 export class ContactList implements OnInit{
   contactState = inject(ContactState);
+  permissionState = inject(PermissionState);
 
   searchTerm = '';
   // statusFilter = '';

@@ -59,7 +59,7 @@
         </div>
     </div>
 
-    @if(isEditMode){
+    @if(isEditMode && permissionState.can('contacts', 'delete')){
         <div class="px-3">
             <button 
                 type="button"
