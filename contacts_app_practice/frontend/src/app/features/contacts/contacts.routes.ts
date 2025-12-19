@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
-import { authGuard, guestGuard } from '../../core/guards/auth.guard';
-import { adminGuard } from '../../core/guards/role.guard';
+import { canCreateContactsGuard, canUpdateContactsGuard } from '../../core/guards/permission.guard';
 
 
 export const CONTACT_ROUTES: Routes = [
@@ -12,7 +11,7 @@ export const CONTACT_ROUTES: Routes = [
   },
   {
     path: 'new',
-    canActivate: [adminGuard],
+    canActivate: [canCreateContactsGuard],
     loadComponent: () => import('./contact-form/contact-form')
       .then(m => m.ContactForm),
     title: 'New Contact'
@@ -25,7 +24,7 @@ export const CONTACT_ROUTES: Routes = [
   },
   {
     path: ':id/edit',
-    canActivate: [adminGuard],
+    canActivate: [canUpdateContactsGuard],
     loadComponent: () => import('./contact-form/contact-form')
       .then(m => m.ContactForm),
     title: 'Edit Contact'

@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { authGuard, guestGuard } from './core/guards/auth.guard';
-import { adminGuard } from './core/guards/role.guard';
 
 export const routes: Routes = [
   // Auth routes (guest only)
@@ -38,7 +37,7 @@ export const routes: Routes = [
     canActivate: [authGuard],
     loadComponent: () => import('./shared/layout/layout').then(m => m.LayoutComponent),
     children: [
-      { path: '', pathMatch: 'full', redirectTo: 'contacts' }, // 👈 default
+      { path: '', pathMatch: 'full', redirectTo: 'contacts' }, 
       {
         path: 'contacts',
         loadChildren: () =>
