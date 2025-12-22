@@ -33,7 +33,7 @@
 
         @if(!contactState.isLoading() && contactState.hasContacts()){
             <div class="max-h-lh">
-                <ul class="divide-y divide-default max-h-160  overflow-auto">
+                <ul class="divide-y divide-default max-h-[calc(100vh-300px)] overflow-auto">
                     @for(group of groupedContacts; track group.letter) {
 
                         <li class="py-2 text-xl font-bold ">
