@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { canCreateContactsGuard, canUpdateContactsGuard } from '../../core/guards/permission.guard';
+import { permissionGuard } from '../../core/guards/permission.guard';
 
 
 export const CONTACT_ROUTES: Routes = [
@@ -11,22 +11,26 @@ export const CONTACT_ROUTES: Routes = [
   },
   {
     path: 'new',
-    canActivate: [canCreateContactsGuard],
-    loadComponent: () => import('./contact-form/contact-form')
-      .then(m => m.ContactForm),
+    canMatch: [permissionGuard('contacts', 'create')],
+    loadComponent: () =>
+      import('./contact-form/contact-form')
+        .then(m => m.ContactForm),
     title: 'New Contact'
   },
   {
     path: ':id',
-    loadComponent: () => import('./contact-detail/contact-detail')
-      .then(m => m.ContactDetail),
+    canMatch: [permissionGuard('contacts', 'view')],
+    loadComponent: () =>
+      import('./contact-detail/contact-detail')
+        .then(m => m.ContactDetail),
     title: 'Contact Details'
   },
   {
     path: ':id/edit',
-    canActivate: [canUpdateContactsGuard],
-    loadComponent: () => import('./contact-form/contact-form')
-      .then(m => m.ContactForm),
+    canMatch: [permissionGuard('contacts', 'update')],
+    loadComponent: () =>
+      import('./contact-form/contact-form')
+        .then(m => m.ContactForm),
     title: 'Edit Contact'
   }
 

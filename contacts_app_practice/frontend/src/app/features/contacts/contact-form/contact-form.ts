@@ -33,7 +33,6 @@ export class ContactForm implements OnInit{
   };
 
   constructor() {
-    // ✅ EFFECT SIEMPRE DEFINIDO
     effect(
       () => {
         const contact = this.contactState.selectedContact();
