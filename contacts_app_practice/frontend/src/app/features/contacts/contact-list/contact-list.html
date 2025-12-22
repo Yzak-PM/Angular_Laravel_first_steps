@@ -32,58 +32,60 @@
         }
 
         @if(!contactState.isLoading() && contactState.hasContacts()){
-            <ul class="divide-y divide-default">
-                @for(group of groupedContacts; track group.letter) {
+            <div class="max-h-lh">
+                <ul class="divide-y divide-default max-h-160  overflow-auto">
+                    @for(group of groupedContacts; track group.letter) {
 
-                    <li class="py-2 text-xl font-bold ">
-                        {{ group.letter }}
-                    </li>
-
-                    @for(contact of group.contacts; track contact.id) {
-                        <li class="pb-3 sm:pb-4 pt-3 pointer" [routerLink]="['/contacts', contact.id]">
-                            <div class="flex items-center space-x-4">
-                                <div class="shrink-0">
-                                <img
-                                    class="w-8 h-8 rounded-full"
-                                    [src]="'https://avatar.iran.liara.run/username?username=' + contact.name"
-                                    alt="IMG">
-                                </div>
-
-                                <div class="flex-1 min-w-0">
-                                <p class="text-sm font-medium truncate">
-                                    {{ contact.name }}
-                                </p>
-                                <p class="text-sm text-body truncate">
-                                    {{ contact.email }}
-                                </p>
-                                </div>
-
-                                <div class="text-base font-semibold">
-                                {{ contact.mobile }}
-                                </div>
-                            </div>
+                        <li class="py-2 text-xl font-bold ">
+                            {{ group.letter }}
                         </li>
-                    }
-                }
-            </ul>
 
-            <div class="mt-6 flex justify-between items-center">
-                <span class="text-blue-600 font-semibold">
-                Showing {{ contactState.contacts().length }} of {{ contactState.totalCount() }}
-                </span>
-                <div class="flex gap-2">
-                <button 
-                    (click)="prevPage()"
-                    [disabled]="contactState.pagination().currentPage === 1"
-                    class="px-3 py-1 border rounded disabled:opacity-50">
-                    Previous
-                </button>
-                <button 
-                    (click)="nextPage()"
-                    [disabled]="contactState.pagination().currentPage === contactState.pagination().lastPage"
-                    class="px-3 py-1 border rounded disabled:opacity-50">
-                    Next
-                </button>
+                        @for(contact of group.contacts; track contact.id) {
+                            <li class="pb-3 sm:pb-4 pt-3 pointer" [routerLink]="['/contacts', contact.id]">
+                                <div class="flex items-center space-x-4">
+                                    <div class="shrink-0">
+                                    <img
+                                        class="w-8 h-8 rounded-full"
+                                        [src]="'https://avatar.iran.liara.run/username?username=' + contact.name"
+                                        alt="IMG">
+                                    </div>
+
+                                    <div class="flex-1 min-w-0">
+                                    <p class="text-sm font-medium truncate">
+                                        {{ contact.name }}
+                                    </p>
+                                    <p class="text-sm text-body truncate">
+                                        {{ contact.email }}
+                                    </p>
+                                    </div>
+
+                                    <div class="text-base font-semibold">
+                                    {{ contact.mobile }}
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                    }
+                </ul>
+
+                <div class="mt-6 flex justify-between items-center">
+                    <span class="text-blue-600 font-semibold">
+                    Showing {{ contactState.contacts().length }} of {{ contactState.totalCount() }}
+                    </span>
+                    <div class="flex gap-2">
+                    <button 
+                        (click)="prevPage()"
+                        [disabled]="contactState.pagination().currentPage === 1"
+                        class="px-3 py-1 border rounded disabled:opacity-50">
+                        Previous
+                    </button>
+                    <button 
+                        (click)="nextPage()"
+                        [disabled]="contactState.pagination().currentPage === contactState.pagination().lastPage"
+                        class="px-3 py-1 border rounded disabled:opacity-50">
+                        Next
+                    </button>
+                    </div>
                 </div>
             </div>
         }
