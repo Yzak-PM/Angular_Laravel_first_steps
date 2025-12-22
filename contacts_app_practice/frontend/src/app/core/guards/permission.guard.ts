@@ -29,10 +29,8 @@ export function permissionGuard<M extends ModuleName>(
 
         // Wait for permissions to load if not yet loaded
         if (!permissionState.isLoaded()) {
-            // If permissions aren't loaded yet, allow access temporarily
-            // The component should handle the loading state
-            // This prevents blocking while permissions are being fetched
-            return true;
+            permissionState.loadPermissions();
+            return false;
         }
 
         // Check specific permission

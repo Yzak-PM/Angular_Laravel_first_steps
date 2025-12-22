@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
@@ -10,11 +10,15 @@ import { PermissionState } from '../../core/state/permission.state';
   imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive],
   templateUrl: './layout.html',
 })
-export class LayoutComponent {
+export class LayoutComponent implements OnInit{
   sidebarOpen = signal(false);
   authService = inject(AuthService);
   CurrentUser = this.authService.user;
   permissionState = inject(PermissionState);
+
+  ngOnInit() {
+    this.permissionState.loadPermissions();
+  }
 
   toggleSidebar() {
     this.sidebarOpen.update(v => !v);
